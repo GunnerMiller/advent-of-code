@@ -1,6 +1,6 @@
 number_strings = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
 
-file = open("input.txt", "r")
+file = open("1.txt", "r")
 content = file.read()
 inputs = content.split('\n')
 sum1 = 0

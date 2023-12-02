@@ -1,58 +1,53 @@
-file = open("2.txt", "r")
-content = file.read()
-inputs = content.split('\n')
 out1 = 0
 out2 = 0
+inputs = open("2.txt", "r").read().split('\n')
+
 redCount = 12
 greenCount = 13
 blueCount = 14
 for gameIndex, game in enumerate(inputs):
-    #gameIndex + 1
     game = game[game.index(":")+2:]
-    badgame = 0
-    sets = game.split(";")
+    gamePossible = True
     maxRedCount = 0
     maxGreenCount = 0
     maxBlueCount = 0
+
+    sets = game.split(";")
     for set in sets:
-        currentRedCount = 0
-        currentGreenCount = 0
-        currentBlueCount = 0
-        pulls = set.split(",")
-        for pull in pulls:
-            x = pull.strip().split(" ")
-            if x[1] == "red":
-                currentRedCount += int(x[0])
+        redsInSet = 0
+        greensInSet = 0
+        bluesInSet = 0
+
+        cubes = set.split(",")
+        for cube in cubes:
+            x, color = cube.strip().split(" ")
+            if color == "red":
+                redsInSet += int(x)
                 if maxRedCount == 0:
-                    maxRedCount = int(x[0])
-                elif int(x[0]) > maxRedCount:
-                    maxRedCount = int(x[0])
-            elif x[1] == "green":
-                currentGreenCount += int(x[0])
+                    maxRedCount = int(x)
+                elif int(x) > maxRedCount:
+                    maxRedCount = int(x)
+            elif color == "green":
+                greensInSet += int(x)
                 if maxGreenCount == 0:
-                    maxGreenCount = int(x[0])
-                elif int(x[0]) > maxGreenCount:
-                    maxGreenCount = int(x[0])
-            elif x[1] == "blue":
-                currentBlueCount += int(x[0])
+                    maxGreenCount = int(x)
+                elif int(x) > maxGreenCount:
+                    maxGreenCount = int(x)
+            elif color == "blue":
+                bluesInSet += int(x)
                 if maxBlueCount == 0:
-                    maxBlueCount = int(x[0])
-                elif int(x[0]) > maxBlueCount:
-                    maxBlueCount = int(x[0])
-        if currentRedCount > redCount:
-            badgame = 1
-        if currentGreenCount > greenCount:
-            badgame = 1
-        if currentBlueCount > blueCount:
-            badgame = 1
-    if badgame == 0:
+                    maxBlueCount = int(x)
+                elif int(x) > maxBlueCount:
+                    maxBlueCount = int(x)
+        if redsInSet > redCount:
+            gamePossible = False
+        if greensInSet > greenCount:
+            gamePossible = False
+        if bluesInSet > blueCount:
+            gamePossible = False
+    if gamePossible == True:
         out1 += gameIndex + 1
-    power = maxRedCount * maxGreenCount * maxBlueCount
-    out2 += (power)
-        
+    out2 += (maxRedCount * maxGreenCount * maxBlueCount)
 
-    
-
-        
 print(out1)
 print(out2)
