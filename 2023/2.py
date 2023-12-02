@@ -1,53 +1,31 @@
+import unittest
+import math
+from collections import defaultdict
+
 out1 = 0
 out2 = 0
 inputs = open("2.txt", "r").read().split('\n')
 
-redCount = 12
-greenCount = 13
-blueCount = 14
 for gameIndex, game in enumerate(inputs):
-    game = game[game.index(":")+2:]
-    gamePossible = True
-    maxRedCount = 0
-    maxGreenCount = 0
-    maxBlueCount = 0
+    game = game[(game.index(":")+2):]
+    gameIsPossible = True
+    colorsNeeded = defaultdict(int)
 
-    sets = game.split(";")
-    for set in sets:
-        redsInSet = 0
-        greensInSet = 0
-        bluesInSet = 0
-
-        cubes = set.split(",")
-        for cube in cubes:
-            x, color = cube.strip().split(" ")
-            if color == "red":
-                redsInSet += int(x)
-                if maxRedCount == 0:
-                    maxRedCount = int(x)
-                elif int(x) > maxRedCount:
-                    maxRedCount = int(x)
-            elif color == "green":
-                greensInSet += int(x)
-                if maxGreenCount == 0:
-                    maxGreenCount = int(x)
-                elif int(x) > maxGreenCount:
-                    maxGreenCount = int(x)
-            elif color == "blue":
-                bluesInSet += int(x)
-                if maxBlueCount == 0:
-                    maxBlueCount = int(x)
-                elif int(x) > maxBlueCount:
-                    maxBlueCount = int(x)
-        if redsInSet > redCount:
-            gamePossible = False
-        if greensInSet > greenCount:
-            gamePossible = False
-        if bluesInSet > blueCount:
-            gamePossible = False
-    if gamePossible == True:
+    for set in game.split(";"):
+        for cube in set.split(","):
+            num, color = cube.split()
+            colorsNeeded[color] = max(colorsNeeded[color], int(num))
+            if int(num) > {'red': 12, 'green': 13, 'blue': 14}.get(color):
+                gameIsPossible = False
+        
+    if gameIsPossible:
         out1 += gameIndex + 1
-    out2 += (maxRedCount * maxGreenCount * maxBlueCount)
+    out2 += math.prod(colorsNeeded.values())
 
-print(out1)
-print(out2)
+class tests(unittest.TestCase):
+    def testPartOne(self):
+        self.assertEqual(out1, 2771)
+    def testPartTwo(self):
+        self.assertEqual(out2, 70924)
+if __name__ == '__main__':
+    unittest.main()
