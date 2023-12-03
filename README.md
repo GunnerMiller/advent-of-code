@@ -2,5 +2,5 @@
 
 # Branches:
 ___
-raw   -> my approach for solving the AOC puzzle
-main  -> my end result after some tidying and optimization
+raw: my approach for solving the AOC puzzle
+main: my end result after some tidying and optimization
