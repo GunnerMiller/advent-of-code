@@ -4,7 +4,7 @@ from collections import defaultdict
 
 out1 = 0
 out2 = 0
-inputs = open("2.txt", "r").read().split('\n')
+inputs = open("2.txt", "r").readlines()
 
 for gameIndex, game in enumerate(inputs):
     game = game[(game.index(":")+2):]
