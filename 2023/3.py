@@ -14,71 +14,66 @@ parts = []
 
 for lineIndex, line in enumerate(inputs):
     printIndex = 0
-    printSameLine("Line #" + str(lineIndex+1) + ": ")
+    # printSameLine("Line #" + str(lineIndex+1) + ": ")
     # print("LINE #" + str(lineIndex+1) + ": " + line[:-1])
-    for eleIndex, ele in enumerate(line.split(".")):
-        if ele != "" and ele != "\n":
-            if(ele.isdigit()):
-                start = line.find("." + ele + ".") + 1
-                end = start + len(ele) - 1
+    i = 0
+    while i < len(line):
+        start = i
+        buffer = ""
+        ele = line[i]
+        # printSameLine(ele)
+        # print(ele)
+        if(ele.isdigit()):
+            buffer += ele
+            while i+1 < len(line) and line[i+1].isdigit():
+                buffer += line[i+1]
+                i += 1
+            ele = buffer
+            # printSameLine(ele + " ")
+            end = i
 
-                printSameLine(line[printIndex:start])
-                printIndex = start + len(ele)
+            print(ele + " START: " + str(start) + " END: " + str(end))
 
-                clear_pre = True
-                clear_post = True
-                
-                # line before
-                if lineIndex -1 > 0: 
-                    currLine = numpy.array([*inputs[lineIndex-1]])
-                    result =  numpy.nonzero(numpy.in1d(currLine, symbols))[0]
-                    # print(result)
-                    if len(result) > 0:
-                        for res in result:
-                            if int(res) in range(start-1,end+2):
-                                clear_pre = False
+            # line before
+            clear_pre = True
+            if lineIndex -1 > 0: 
+                currLine = numpy.array([*inputs[lineIndex-1]])
+                result =  numpy.nonzero(numpy.in1d(currLine, symbols))[0]
+                # print(result)
+                if len(result) > 0:
+                    for res in result:
+                        if int(res) in range(start - 1, end + 2):
+                            clear_pre = False
 
-                # line after
-                if lineIndex + 1 < len(inputs):
-                    currLine = numpy.array([*inputs[lineIndex+1]])
-                    result =  numpy.nonzero(numpy.in1d(currLine, symbols))[0]
-                    # print(result)
-                    if len(result) > 0:
-                        for res in result:
-                            if int(res) in range(start-1,end+2):
-                                clear_post = False  
+            clear_current = True
+            currLine = numpy.array([*inputs[lineIndex]])
+            result =  numpy.nonzero(numpy.in1d(currLine, symbols))[0]
+            # print(result)
+            if len(result) > 0:
+                for res in result:
+                    if int(res) in range(start - 1, end + 2):
+                        clear_current = False
 
-                if not clear_pre or not clear_post:
-                    # print("FOUND: " + ele  + " START: " + str(start) + " END: " + str(end))
-                    printSameLine(colored(ele, 'cyan'))
-                    
-                    parts.append(ele)
-                    # parts.remove(ele)
-                else:
-                    printSameLine(colored(ele, 'red'))
+            # line after
+            clear_post = True
+            if lineIndex + 1 < len(inputs):
+                currLine = numpy.array([*inputs[lineIndex+1]])
+                result =  numpy.nonzero(numpy.in1d(currLine, symbols))[0]
+                # print(result)
+                if len(result) > 0:
+                    for res in result:
+                        if int(res) in range(start - 1, end + 2):
+                            clear_post = False  
 
-            else:
-                # print(ele)
-                if ele not in symbols:
-                    # print(ele)
-                    for char in ele:
-                        if char in symbols:
-                            for num in ele.split(char):
-                                if num != '':
-                                    # print("NUM: " + num)
-                                    parts.append(num)
-                    start = line.find(ele)
-                    printSameLine(line[printIndex:start])
-                    printIndex = start + len(ele)
-                    printSameLine(colored(ele, 'yellow'))
+            if not clear_pre or not clear_post or not clear_current:
+                parts.append(ele)
 
-                # else:
-                #     start = line.find(ele)
-                #     printSameLine(line[printIndex:start])
-                #     printIndex = start +1
-                #     printSameLine(colored(ele, 'green'))
-    printSameLine(line[printIndex:])
-    # sys.exit()
+            i += 1
+        else:
+            i += 1
+    printSameLine("\n")
+    # if lineIndex > 3:
+    #     sys.exit()
                     
                     
 
