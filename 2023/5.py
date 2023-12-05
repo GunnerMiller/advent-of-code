@@ -27,28 +27,35 @@ while i < len(inputs):
     i += 1
 
 curr_low = None
-for seedValue in seeds:
-    value = seedValue
-    key = "seed"
-    next_map = mappings[key]
+x = 0
+while x < len(seeds):
+    seedsRange = seeds[x+1]
+    initialValue = seeds[x]
+    for ind in range(int(seedsRange)):
+        value = int(initialValue) + ind
+        # print(value)
+        key = "seed"
+        next_map = mappings[key]
 
     # drill to location
-    while next_map != "":
-        map = maps[next_map]
-        for source in map.keys():
-            dest, range_length = map[source]
-            source = int(source)
-            value = int(value)
-            if value >= source and value <= source + int(range_length) - 1:
-                value = value + int(dest) - int(source)
-                break
-        
-        next_map = mappings[next_map]
+        while next_map != "":
+            map = maps[next_map]
+            for source in map.keys():
+                dest, range_length = map[source]
+                source = int(source)
+                value = int(value)
+                if value >= source and value <= source + int(range_length) - 1:
+                    value = value + int(dest) - int(source)
+                    break
+            
+            next_map = mappings[next_map]
 
-    if curr_low == None:
-        curr_low = value
-    else:
-        curr_low = min(curr_low, value)
+        if curr_low == None:
+            curr_low = value
+        else:
+            curr_low = min(curr_low, value)
+    
+    x+=2
 
 print(curr_low)
 print(out2)
