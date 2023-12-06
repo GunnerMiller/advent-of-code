@@ -1,6 +1,7 @@
-inputs = open("5.txt", "r").readlines()
 import datetime
 start = datetime.datetime.now()
+
+inputs = open("5.txt", "r").readlines()
 curr_lowest = None
 seeds = inputs[0].split(":")[1].strip().split()
 for x in range(0, len(seeds), 2):
@@ -50,6 +51,7 @@ for x in range(0, len(seeds), 2):
     temp.sort()
     curr_low = temp[0]
     curr_lowest = curr_low if curr_lowest == None else min(curr_lowest, curr_low)
+    
 end = datetime.datetime.now()
 result = end - start
 print("RUNTIME=" + str(result.total_seconds()) + " sec")
