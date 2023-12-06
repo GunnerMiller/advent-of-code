@@ -15,7 +15,7 @@ for x in range(0, len(seeds), 2):
                     dest, source, range_length = inputs[i+1].split()
                     ruleStart = int(source)
                     ruleEnd = ruleStart + int(range_length) - 1
-                    t_factor = int(dest) - int(source)
+                    t_factor = int(dest) - int(source) # amount to transform by
                     
                     stack = list(values.keys())
                     while len(stack) > 0:
@@ -51,5 +51,7 @@ for x in range(0, len(seeds), 2):
     curr_low = temp[0]
     curr_lowest = curr_low if curr_lowest == None else min(curr_lowest, curr_low)
 end = datetime.datetime.now()
+result = end - start
+print("RUNTIME=" + str(result.total_seconds()) + " sec")
+print("RUNTIME=" + str(result.total_seconds() * 1000) + " ms")
 print(curr_lowest)
-print("RUNTIME=" + str(end-start))
