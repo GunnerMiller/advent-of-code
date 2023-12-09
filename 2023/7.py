@@ -2,7 +2,7 @@ import sys
 from collections import defaultdict
 
 
-values = {"A":14,"K":13,"Q":12,"J":11,"T":10, "9":9, "8":8, "7":7, "4":4, "6":6, "5":5, "3":3, "2":2, "1":1}
+values = {"A":14,"K":13,"Q":12,"T":11, "9":10, "8":9, "7":8, "6":7, "5":6,"4":5, "3":4, "2":3, "1":2, "J":1}
 five_kind = {}
 four_kind = {}
 full_house = {}
@@ -37,13 +37,22 @@ hands = {}
 for line in input:
     hand, bid = line.split()
     counts = defaultdict(str)
+    jokers = 0
     for card in hand:
+        if card == 'J':
+            jokers += 1
         if counts[card] == '':
             counts[card] = 1
         else:
             counts[card] = int(counts[card]) + 1
+
+    if jokers > 0 and jokers != 5:
+        del counts['J']
+        key = max(counts, key=counts.get)
+        counts[key] = counts[key] + int(jokers)
     matches = 0
     for val in counts.values():
+        print(val)
         if val > 1:
             matches += 1
     if matches == 1:
@@ -64,11 +73,6 @@ for line in input:
     else:
         high_card_ass_losers[hand] = bid
     hands[hand] = bid
-
-keys = list(high_card_ass_losers.keys())
-keys.sort(key=lambda val:values[val[0]]) 
-for key in keys:
-    print(key)
 
 five_kind = pack(list(five_kind.keys()), 0)
 four_kind = pack(list(four_kind.keys()), 0)
