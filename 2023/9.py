@@ -1,6 +1,6 @@
 import sys
-# input = open("9.txt", "r").readlines()
-input = open("9.sample.txt", "r").readlines()
+input = open("9.txt", "r").readlines()
+# input = open("9.sample.txt", "r").readlines()
 
 def is_zeroed(arr):
     if arr == []:
@@ -35,12 +35,17 @@ for line in input:
                 curr = ele
         line = new_line
         p1 += new_line[-1]
-        lines.append([new_line])
+        lines.append(new_line)
     
-    start_extrapolate = 0
-    # print(lines)
-    # for i, line in enumerate(reversed(lines)):
-    #     print(line)
-
+    start_extrapolation = 0
+    curr_line = None
+    for line in reversed(lines):
+        print(line)
+        if curr_line == None:
+            curr_line = line
+        else:
+            start_extrapolation = (line[0] - start_extrapolation)
+            print(start_extrapolation)
+    p2 += start_extrapolation
 print(p1)
-# print(p2)
+print(p2)
