@@ -28,6 +28,10 @@ for y, line in enumerate(grid):
 
 pipes = "|-LJF7"
 starters = []
+
+#################
+# use validation to confirm it's legit, get to go 
+#################
 if(pipes.find(get_up(start_x,start_y))) > -1:
     starters.append([start_x, start_y-1])
 if(pipes.find(get_left(start_x,start_y))) > -1:
@@ -37,12 +41,37 @@ if(pipes.find(get_right(start_x,start_y))) > -1:
 if(pipes.find(get_down(start_x,start_y))) > -1:
     starters.append([start_x, start_y+1])
 
-valid_vertical = "|LJF7"
-valid_horizontal = "-LJF7"
+# MAPS:
+# pieces{} {"L":{"up":"right"}{"right","up"}}
+# directions{}"down":"go_down"
 
-connectors = []
-source_x = start_x
-source_y = start_y
-for start in starters:
-    # we need methods to track our source and make the appropriate step
-    continue
+# sdir = source direction
+# ndir = next direction
+curr = starters.pop()
+sdir_x = curr[0] - start_x
+sdir_y = curr[1] - start_y
+ndir = None
+if sdir_x == 1:
+    ndir = "right"
+elif sdir_x == -1:
+    ndir = "left"
+elif sdir_y == 1:
+    ndir = "down"
+elif sdir_x == -1:
+    ndir = "up"
+# directions[ndir]()
+# if it returns a direction, start loop
+# track steps along the way
+# if it terminates without returning we go to the next starter
+
+# TRAVERSE:
+    # functions:
+    # IN: x and y from curr_p
+    # def go_down(x, y)
+    # sdir = "up"
+    # ndir = pieces[get_down(x,y)][sdir]
+    # keyError or indexError here validates that the piece isn't connected
+    # catch those errors and return None
+    # ndirfun =  directions[ndir]
+    # return ndirfun 
+    # we return for < stack space
