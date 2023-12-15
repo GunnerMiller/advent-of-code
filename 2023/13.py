@@ -10,7 +10,7 @@ rows = []
 
 grid = []
 curr = input[0]
-for line in input
+for line in input:
     grid.append(line)
 # maybe optimize to check rows first?
 
