@@ -28,10 +28,6 @@ for y, line in enumerate(grid):
 
 pipes = "|-LJF7"
 starters = []
-
-#################
-# use validation to confirm it's legit, get to go 
-#################
 if(pipes.find(get_up(start_x,start_y))) > -1:
     starters.append([start_x, start_y-1])
 if(pipes.find(get_left(start_x,start_y))) > -1:
@@ -41,37 +37,63 @@ if(pipes.find(get_right(start_x,start_y))) > -1:
 if(pipes.find(get_down(start_x,start_y))) > -1:
     starters.append([start_x, start_y+1])
 
-# MAPS:
-# pieces{} {"L":{"up":"right"}{"right","up"}}
-# directions{}"down":"go_down"
+u = "up"
+d = "down"
+l = "left"
+r = "right"
+pieces = {"|":{u:d,d:u},"-":{l:r,r:l},"L":{u:r,r:u},"J":{u:l,l:u},"F":{d:r,r:d},"7":{d:l,l:d}}
 
-# sdir = source direction
-# ndir = next direction
-curr = starters.pop()
-sdir_x = curr[0] - start_x
-sdir_y = curr[1] - start_y
-ndir = None
-if sdir_x == 1:
-    ndir = "right"
-elif sdir_x == -1:
-    ndir = "left"
-elif sdir_y == 1:
-    ndir = "down"
-elif sdir_x == -1:
-    ndir = "up"
+directions = {}
+def go_up(x,y):
+    sdir = d
+    try:
+        ndir = pieces[get_up(x,y)][sdir]
+    except:
+        return None
+    ndirfun = directions[ndir]
+    return ndirfun
+def go_left(x,y):
+    sdir = r
+    try:
+        ndir = pieces[get_left(x,y)][sdir]
+    except:
+        return None
+    ndirfun = directions[ndir]
+    return ndirfun
+def go_right(x,y):
+    sdir = l
+    try:
+        ndir = pieces[get_right(x,y)][sdir]
+    except:
+        return None
+    ndirfun = directions[ndir]
+    return ndirfun
+def go_down(x,y):
+    sdir = u
+    try:
+        ndir = pieces[get_down(x,y)][sdir]
+    except:
+        return None
+    ndirfun = directions[ndir]
+    return ndirfun
+directions = {u:go_up, d:go_down, l:go_left, r:go_right}
+
 # directions[ndir]()
 # if it returns a direction, start loop
 # track steps along the way
 # if it terminates without returning we go to the next starter
-
-# TRAVERSE:
-    # functions:
-    # IN: x and y from curr_p
-    # def go_down(x, y)
-    # sdir = "up"
-    # ndir = pieces[get_down(x,y)][sdir]
-    # keyError or indexError here validates that the piece isn't connected
-    # catch those errors and return None
-    # ndirfun =  directions[ndir]
-    # return ndirfun 
-    # we return for < stack space
+curr = starters.pop()
+sdir_x = curr[0] - start_x
+sdir_y = curr[1] - start_y
+ndir = None
+print(get_coord(curr[0], curr[1]))
+if sdir_x == 1:
+    ndir = r
+elif sdir_x == -1:
+    ndir = l
+elif sdir_y == 1:
+    ndir = d
+elif sdir_x == -1:
+    ndir = u
+if ndir is not None:
+    print(directions[ndir](sdir_x,sdir_y))
