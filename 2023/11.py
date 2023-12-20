@@ -1,5 +1,5 @@
-# input = open("11.txt", "r").readlines()
-input = open("11.sample.txt", "r").readlines()
+input = open("11.txt", "r").readlines()
+# input = open("11.sample.txt", "r").readlines()
 p1 = 0
 p2 = 0
 
@@ -33,11 +33,19 @@ for ec in reversed(empty_cols):
 
 # find coordinates of all hashes
 galaxies = []
-#  for y:
-#   for x:
-#     galaxies.append(x,y)
+for y, row in enumerate(rows):
+    for x, col in enumerate(row):  
+        if rows[y][x] == '#':
+            galaxies.append([x,y])
 
-# determine pairs
-# find shortest path by |x1-x2| + |y2-y1|
+while len(galaxies) > 0:
+    curr = galaxies.pop()
+    temp = []
+    while len(galaxies) > 0:
+        next = galaxies.pop()
+        temp.append(next)
+        p1 += abs(next[0] - curr[0]) + abs(next[1] - curr[1])
+    for e in temp:
+        galaxies.append(e)
 
-# sum shortest paths
+print(p1)
