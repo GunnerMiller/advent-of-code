@@ -1,3 +1,6 @@
+import datetime
+start = datetime.datetime.now()
+
 input = open("12.txt", "r").readlines()
 # input = open("12.sample.txt", "r").readlines()
 p1 = 0
@@ -36,5 +39,9 @@ for line in input:
 
         if clear:
             p1 += 1
-    
+end = datetime.datetime.now()
+result = end - start
+print("RUNTIME=" + str(result.total_seconds()) + " sec")
+print("RUNTIME=" + str(result.total_seconds() * 1000) + " ms")
+
 print(p1)
