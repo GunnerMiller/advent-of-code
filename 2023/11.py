@@ -15,8 +15,6 @@ for i, row in enumerate(rows):
             break
     if empty:
         empty_rows.append(i)
-for empty_row in reversed(empty_rows):
-    rows.insert(empty_row, [*'.' * len(rows[0])])
 empty_cols = []
 for col in range(len(rows[0])):
     empty = True
@@ -27,9 +25,6 @@ for col in range(len(rows[0])):
             break
     if empty:
         empty_cols.append(col)
-for ec in reversed(empty_cols):
-    for row in rows:
-        row.insert(ec, '.')
 
 # find coordinates of all hashes
 galaxies = []
@@ -38,13 +33,24 @@ for y, row in enumerate(rows):
         if rows[y][x] == '#':
             galaxies.append([x,y])
 
+expansion_factor = 1000000 - 1
 while len(galaxies) > 0:
     curr = galaxies.pop()
     temp = []
     while len(galaxies) > 0:
         next = galaxies.pop()
         temp.append(next)
-        p1 += abs(next[0] - curr[0]) + abs(next[1] - curr[1])
+        x1 = curr[0]
+        x2 = next[0]
+        y1 = curr[1]
+        y2 = next[1]
+        for r in empty_rows:
+            if r in range(min(y1,y2), max(y1,y2)):
+                p1 += expansion_factor
+        for c in empty_cols:
+            if c in range(min(x1,x2), max(x1,x2)):
+                p1 += expansion_factor
+        p1 += abs(x1-x2) + abs(y1-y2)
     for e in temp:
         galaxies.append(e)
 
