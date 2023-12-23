@@ -44,11 +44,10 @@ while len(lasers) > 0:
     dir = laser[1]
     curr_x = laser[0][0]
     curr_y = laser[0][1]
-    next = dir_fun[dir](curr_x,curr_y)
-    print(next)
-    # while (alive):
-    #     try:
-    #         ndir = 
-
-    #     except:
-    #         alive = False 
+    while (alive):
+        next = dir_fun[dir](curr_x,curr_y)
+        print(next)
+        try:
+            continue
+        except:
+            alive = False 
