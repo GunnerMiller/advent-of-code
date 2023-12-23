@@ -1,5 +1,10 @@
 from collections import defaultdict
-input = open("15.sample.txt", "r").read().replace("\n",'')
+# filename = '15.txt'
+filename = '15.sample.txt'
+try:
+    input = open(filename, "r").read().replace("\n",'')
+except:
+    input = open('2023/'+filename, "r").read().replace("\n",'')
 p1 = 0
 for line in input.split(','):
     curr = 0
@@ -9,20 +14,33 @@ for line in input.split(','):
 # print(p1)
 
 p2 = 0
-map = defaultdict(str)
-for line in input.split(','):
+map = defaultdict(list)
+for step, line in enumerate(input.split(',')):
     key = line[0:2]
     command = line[2:]
-    box = 0
+    bucket = 0
     for char in key:
-        box = (box + ord(char)) * 17 % 256
+        bucket = (bucket + ord(char)) * 17 % 256
     if command[0] == '=':
-        lens = command[-1]
-        map[key] = [box, lens]
+        focus = command[-1]
+        if key not in (i[0] for i in map[bucket]):
+            map[bucket].append([key, focus])
+        else:
+            i = map[bucket].index(key)
+            map[bucket][i][1] = focus
     else:
         try:
-            del map[key]
+            map[bucket].remove(key)
         except:
             pass
-for key in map.keys():
-    print(key + ' ' + str(map[key][0]) + ' ' + str(map[key][1]))
+    
+for i, bucket in enumerate(map.keys()):
+    if len(map[bucket]) == 0:
+        continue
+    for i, ele in enumerate(map[bucket]):
+        box = bucket + 1
+        slot = i + 1
+        focus = ele[1]
+        value = box * slot * focus
+        print(value)
+print(p2)
