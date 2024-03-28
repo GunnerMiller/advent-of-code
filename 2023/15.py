@@ -11,7 +11,7 @@ for line in input.split(','):
     for char in line:
         curr = (curr + ord(char)) * 17 % 256
     p1 += curr
-# print(p1)
+print(p1)
 
 p2 = 0
 map = defaultdict(list)
